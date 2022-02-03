@@ -1,13 +1,33 @@
 import logo from "./logo.svg";
 import "./App.css";
 import Nav from "./components/nav";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Profile from "./routes/profile";
+import Home from "./routes/home";
+import Login from "./routes/login";
+import Store from "./routes/store";
+import Notifications from "./routes/notifications";
+import ErrorPage from "./routes/errorMsg";
+import Settings from "./routes/settings";
+import Inventory from "./routes/inventory";
 
 function App() {
   return (
-    <div className="App">
+    <Router>
       <Nav />
-      <h1>PokePackz!</h1>
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="*" element={<ErrorPage />} />
+
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/inventory" element={<Inventory />} />
+      </Routes>
+    </Router>
   );
 }
 
