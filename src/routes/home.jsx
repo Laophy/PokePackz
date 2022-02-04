@@ -10,10 +10,24 @@ function Home() {
     <div className="Home">
       <Grid
         container
-        direction="column"
-        justifyContent="center"
+        direction="row"
+        justifyContent="space-evenly"
         alignItems="center"
       >
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
+        <img src={PokePackzLogo} style={{ margin: 10 }} />
         <img src={PokePackzLogo} style={{ margin: 10 }} />
       </Grid>
     </div>

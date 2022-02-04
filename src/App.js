@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import Nav from "./components/nav";
+import UpdatedNav from "./components/updatedNav";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Profile from "./routes/profile";
 import Home from "./routes/home";
