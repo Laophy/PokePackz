@@ -3,6 +3,7 @@ import "./App.css";
 import Nav from "./components/nav";
 import UpdatedNav from "./components/updatedNav";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Profile from "./routes/profile";
 import Home from "./routes/home";
 import Login from "./routes/login";
@@ -11,6 +12,8 @@ import Notifications from "./routes/notifications";
 import ErrorPage from "./routes/errorMsg";
 import Settings from "./routes/settings";
 import Inventory from "./routes/inventory";
+import Open from "./routes/open";
+import Explore from "./routes/explore";
 
 function App() {
   return (
@@ -18,7 +21,6 @@ function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
         <Route path="*" element={<ErrorPage />} />
 
         <Route path="/profile" element={<Profile />} />
@@ -27,6 +29,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/inventory" element={<Inventory />} />
+
+        <Route path="/open" element={<Open />} />
+        <Route path="/explore" element={<Explore />} />
       </Routes>
     </Router>
   );

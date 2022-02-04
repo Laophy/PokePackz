@@ -15,6 +15,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import Tooltip from "@mui/material/Tooltip";
 
 import pokelogo from "../Pokemon Images/PokePackz.png";
 import { height } from "@mui/system";
@@ -115,7 +116,7 @@ export default function Nav() {
         Settings
       </MenuItem>
       <MenuItem onClick={handleMenuClose} component={Link} to={"/login"}>
-        Logout
+        Login
       </MenuItem>
     </Menu>
   );
@@ -183,7 +184,9 @@ export default function Nav() {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <Tooltip title="More">
+              <MenuIcon />
+            </Tooltip>
           </IconButton>
 
           <Typography
@@ -202,36 +205,53 @@ export default function Nav() {
             />
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          <MenuItem onClick={handleMenuClose} component={Link} to={"/"}>
-            Home
-          </MenuItem>
+
+          <Tooltip title="Home menu">
+            <MenuItem onClick={handleMenuClose} component={Link} to={"/"}>
+              Home
+            </MenuItem>
+          </Tooltip>
+          <Tooltip title="Explore pokemon regions">
+            <MenuItem
+              onClick={handleMenuClose}
+              component={Link}
+              to={"/explore"}
+            >
+              Explore
+            </MenuItem>
+          </Tooltip>
+          <Tooltip title="Open pokemon packs">
+            <MenuItem onClick={handleMenuClose} component={Link} to={"/open"}>
+              Open
+            </MenuItem>
+          </Tooltip>
+          <Tooltip title="Login to your account">
+            <MenuItem onClick={handleMenuClose} component={Link} to={"/login"}>
+              Login
+            </MenuItem>
+          </Tooltip>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
             >
-              <Badge badgeContent={1} color="error">
-                <MailIcon />
-              </Badge>
+              <Tooltip title="Notifications">
+                <Badge badgeContent={1} color="error">
+                  <MailIcon />
+                </Badge>
+              </Tooltip>
             </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={0} color="error">
-                <NotificationsIcon />
-              </Badge>
+              <Tooltip title="System Alerts">
+                <Badge badgeContent={0} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </Tooltip>
             </IconButton>
             <IconButton
               size="large"
