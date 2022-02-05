@@ -144,7 +144,7 @@ export default function Nav() {
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>Notifications</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -152,11 +152,11 @@ export default function Nav() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={1} color="error">
+          <Badge badgeContent={0} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>System Alerts</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -177,18 +177,6 @@ export default function Nav() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: "#0075BE" }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <Tooltip title="More">
-              <MenuIcon />
-            </Tooltip>
-          </IconButton>
-
           <Typography
             variant="h6"
             noWrap
@@ -204,6 +192,16 @@ export default function Nav() {
               src={pokelogo}
             />
           </Typography>
+          <Tooltip title="View the pokedex">
+            <MenuItem
+              onClick={handleMenuClose}
+              component={Link}
+              to={"/pokedex"}
+              style={{ marginLeft: 5 }}
+            >
+              View PokeDex
+            </MenuItem>
+          </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
 
           <Tooltip title="Home menu">

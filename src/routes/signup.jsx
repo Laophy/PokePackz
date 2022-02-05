@@ -1,4 +1,6 @@
-import * as React from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useAuth, currentUser } from "../contexts/AuthContext";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -17,18 +19,42 @@ import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import Tooltip from "@mui/material/Tooltip";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-
 import Zoom from "@mui/material/Zoom";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-import PokePackzLogo from "../Pokemon Images/PokePackzLogin.png";
+import PokePackzLogo from "../Pokemon Images/PokePackzCreateAccount.png";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function Login() {
+function SignUp() {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const { signup, currentUser } = useAuth();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSumbit(e) {
+    e.preventDefault();
+    console.log(currentUser);
+
+    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+      return setError("Passwords do not match");
+    }
+
+    try {
+      setError("");
+      setLoading(true);
+      await signup(emailRef.current.value, passwordRef.current.value);
+    } catch {
+      setError("Failed to create an account");
+    }
+    setLoading(false);
+  }
+
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -44,7 +70,9 @@ function Login() {
   };
   return (
     <Zoom in={true}>
-      <div className="Login">
+      <div className="SignUp">
+        <p>Error: {error}</p>
+        <p>User: {JSON.stringify(currentUser.email)}</p>
         <Grid
           container
           direction="column"
@@ -104,6 +132,7 @@ function Login() {
                     label="Email"
                     variant="standard"
                     type="email"
+                    inputRef={emailRef}
                   />
                 </Item>
                 <Item>
@@ -113,6 +142,17 @@ function Login() {
                     label="Password"
                     variant="standard"
                     type="password"
+                    inputRef={passwordRef}
+                  />
+                </Item>
+                <Item>
+                  <TextField
+                    fullWidth
+                    id="standard-basic"
+                    label="Confirm Password"
+                    variant="standard"
+                    type="password"
+                    inputRef={passwordConfirmRef}
                   />
                 </Item>
               </Grid>
@@ -121,14 +161,25 @@ function Login() {
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="center"
+              ></Grid>
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                marginTop={5}
               >
                 <Item>
-                  <Checkbox defaultChecked />
-                </Item>
-                <Item>
-                  <Typography variant="p" component="div">
-                    Remember me
-                  </Typography>
+                  <Tooltip title="Create new account">
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={handleSumbit}
+                      disabled={loading}
+                    >
+                      Create Account
+                    </Button>
+                  </Tooltip>
                 </Item>
               </Grid>
             </CardContent>
@@ -136,41 +187,38 @@ function Login() {
               <Grid
                 container
                 direction="row"
-                justifyContent="space-between"
-                alignItems="flex-end"
-                marginTop={3}
+                justifyContent="center"
+                alignItems="center"
               >
                 <Item>
-                  <Tooltip title="Create a new account">
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      onClick={handleClick}
-                      component={Link}
-                      to={"/signup"}
-                    >
-                      Create Account
-                    </Button>
-                  </Tooltip>
+                  <Typography gutterBottom variant="p" component="div">
+                    Already have an account?
+                  </Typography>
                 </Item>
                 <Item>
-                  <Tooltip title="Sign in">
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      onClick={handleClick}
-                    >
-                      Login
-                    </Button>
-                  </Tooltip>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="success"
+                    onClick={handleClick}
+                    style={{ marginLeft: 5 }}
+                    component={Link}
+                    to={"/login"}
+                  >
+                    Login
+                  </Button>
                 </Item>
               </Grid>
             </CardActions>
           </Card>
         </Grid>
         <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-            An error occured.
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Account Created.
           </Alert>
         </Snackbar>
       </div>
@@ -178,4 +226,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;
