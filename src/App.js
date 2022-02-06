@@ -1,3 +1,4 @@
+import React, { Fragment } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Nav from "./components/nav";
@@ -18,31 +19,45 @@ import Explore from "./routes/explore";
 import PokeDex from "./routes/pokedex";
 import SignUp from "./routes/signup";
 import { AuthProvider } from "./contexts/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Nav />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<ErrorPage />} />
+    <Router>
+      <AuthProvider>
+        <Fragment>
+          <Nav />
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="*" element={<ErrorPage />} />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
 
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/inventory" element={<Inventory />} />
-          <Route path="/notifications" element={<Notifications />} />
+            <Route path="/profile" element={<PrivateRoute />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
 
-          <Route path="/open" element={<Open />} />
-          <Route path="/explore" element={<Explore />} />
-          <Route path="/pokedex" element={<PokeDex />} />
-          <Route path="/store" element={<Store />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+            <Route path="/settings" element={<PrivateRoute />}>
+              <Route path="/settings" element={<Settings />} />
+            </Route>
+
+            <Route path="/inventory" element={<PrivateRoute />}>
+              <Route path="/inventory" element={<Inventory />} />
+            </Route>
+
+            <Route path="/notifications" element={<PrivateRoute />}>
+              <Route path="/notifications" element={<Notifications />} />
+            </Route>
+
+            <Route path="/open" element={<Open />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/pokedex" element={<PokeDex />} />
+            <Route path="/store" element={<Store />} />
+          </Routes>
+        </Fragment>
+      </AuthProvider>
+    </Router>
   );
 }
 

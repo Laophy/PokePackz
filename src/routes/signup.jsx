@@ -39,7 +39,6 @@ function SignUp() {
 
   async function handleSumbit(e) {
     e.preventDefault();
-    console.log(currentUser);
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
@@ -71,8 +70,6 @@ function SignUp() {
   return (
     <Zoom in={true}>
       <div className="SignUp">
-        <p>Error: {error}</p>
-        <p>User: {JSON.stringify(currentUser.email)}</p>
         <Grid
           container
           direction="column"

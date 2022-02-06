@@ -1,4 +1,12 @@
-import * as React from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useAuth, currentUser } from "../contexts/AuthContext";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -17,8 +25,6 @@ import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import Tooltip from "@mui/material/Tooltip";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-
 import Zoom from "@mui/material/Zoom";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
@@ -29,6 +35,28 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 function Login() {
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { login, currentUser } = useAuth();
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  async function handleSumbit(e) {
+    e.preventDefault();
+
+    try {
+      setError("");
+      setLoading(true);
+      await login(emailRef.current.value, passwordRef.current.value);
+      navigate("/profile");
+    } catch {
+      setError("Failed to sign in.");
+    }
+    setLoading(false);
+  }
+
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -104,6 +132,7 @@ function Login() {
                     label="Email"
                     variant="standard"
                     type="email"
+                    inputRef={emailRef}
                   />
                 </Item>
                 <Item>
@@ -113,6 +142,7 @@ function Login() {
                     label="Password"
                     variant="standard"
                     type="password"
+                    inputRef={passwordRef}
                   />
                 </Item>
               </Grid>
@@ -158,7 +188,8 @@ function Login() {
                     <Button
                       size="small"
                       variant="outlined"
-                      onClick={handleClick}
+                      onClick={handleSumbit}
+                      disabled={loading}
                     >
                       Login
                     </Button>

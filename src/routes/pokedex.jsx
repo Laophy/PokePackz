@@ -13,12 +13,15 @@ import Typography from "@mui/material/Typography";
 import { CardHeader } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Tooltip from "@mui/material/Tooltip";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function PokeDex() {
   //151 or 3rd gen 386
   const [pokemon, setPokemon] = useState([]);
   const [pokeLimit, setPokeLimit] = useState(386);
   const [shiny, setShiny] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState();
   const [url, setURL] = useState(
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
   );
@@ -39,15 +42,25 @@ function PokeDex() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?limit=${pokeLimit}`
-      );
-      const data = await response.json();
-      const pokemonList = data.results
-        .slice(0, data.results.length)
-        .map((items) => items)
-        .flat();
-      setPokemon(pokemonList);
+      try {
+        setError(
+          <CircularProgress style={{ marginLeft: 10, height: 60, width: 60 }} />
+        );
+        setLoading(true);
+        const response = await fetch(
+          `https://pokeapi.co/api/v2/pokemon?limit=${pokeLimit}`
+        );
+        const data = await response.json();
+        const pokemonList = data.results
+          .slice(0, data.results.length)
+          .map((items) => items)
+          .flat();
+        setPokemon(pokemonList);
+        setError("");
+      } catch {
+        setError("Failed to fetch");
+      }
+      setLoading(false);
     };
 
     fetchData();
@@ -84,6 +97,7 @@ function PokeDex() {
         <Typography variant="p" component="div">
           Shiny
         </Typography>
+        {error}
       </Grid>
       <Grid
         container
