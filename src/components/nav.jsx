@@ -16,6 +16,9 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Tooltip from "@mui/material/Tooltip";
+import Divider from "@mui/material/Divider";
+
+import { useAuth } from "../contexts/AuthContext";
 
 import pokelogo from "../Pokemon Images/PokePackz.png";
 import { height } from "@mui/system";
@@ -63,6 +66,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Nav() {
+  const { currentUser, logout } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -106,6 +110,7 @@ export default function Nav() {
       <MenuItem onClick={handleMenuClose} component={Link} to={"/profile"}>
         Profile
       </MenuItem>
+      <Divider />
       <MenuItem onClick={handleMenuClose} component={Link} to={"/inventory"}>
         Inventory
       </MenuItem>
@@ -115,9 +120,16 @@ export default function Nav() {
       <MenuItem onClick={handleMenuClose} component={Link} to={"/settings"}>
         Settings
       </MenuItem>
-      <MenuItem onClick={handleMenuClose} component={Link} to={"/login"}>
-        Login
-      </MenuItem>
+      <Divider />
+      {currentUser ? (
+        <MenuItem onClick={logout} component={Link} to={"/login"}>
+          Logout
+        </MenuItem>
+      ) : (
+        <MenuItem onClick={handleMenuClose} component={Link} to={"/login"}>
+          Login
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -209,25 +221,42 @@ export default function Nav() {
               Home
             </MenuItem>
           </Tooltip>
-          <Tooltip title="Explore pokemon regions">
-            <MenuItem
-              onClick={handleMenuClose}
-              component={Link}
-              to={"/explore"}
-            >
-              Explore
-            </MenuItem>
-          </Tooltip>
-          <Tooltip title="Open pokemon packs">
-            <MenuItem onClick={handleMenuClose} component={Link} to={"/open"}>
-              Open
-            </MenuItem>
-          </Tooltip>
-          <Tooltip title="Login to your account">
+
+          {currentUser ? (
+            <>
+              <Tooltip title="Explore pokemon regions">
+                <MenuItem
+                  onClick={handleMenuClose}
+                  component={Link}
+                  to={"/explore"}
+                >
+                  Explore
+                </MenuItem>
+              </Tooltip>
+              <Tooltip title="Open pokemon packs">
+                <MenuItem
+                  onClick={handleMenuClose}
+                  component={Link}
+                  to={"/open"}
+                >
+                  Open
+                </MenuItem>
+              </Tooltip>
+              <Tooltip title="View profile">
+                <MenuItem
+                  onClick={handleMenuClose}
+                  component={Link}
+                  to={"/profile"}
+                >
+                  Profile
+                </MenuItem>
+              </Tooltip>
+            </>
+          ) : (
             <MenuItem onClick={handleMenuClose} component={Link} to={"/login"}>
               Login
             </MenuItem>
-          </Tooltip>
+          )}
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"

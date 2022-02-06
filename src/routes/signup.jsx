@@ -33,12 +33,14 @@ function SignUp() {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const { signup, currentUser } = useAuth();
+  const [open, setOpen] = useState(false);
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleSumbit(e) {
     e.preventDefault();
+    setOpen(true);
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
@@ -49,16 +51,10 @@ function SignUp() {
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
     } catch {
-      setError("Failed to create an account");
+      setError("Failed to create an account try again later.");
     }
     setLoading(false);
   }
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -67,6 +63,12 @@ function SignUp() {
 
     setOpen(false);
   };
+
+  function signinWithGoogle() {
+    setError("Unable to sign in with google at this time.");
+    setOpen(true);
+  }
+
   return (
     <Zoom in={true}>
       <div className="SignUp">
@@ -108,7 +110,7 @@ function SignUp() {
                     <Button
                       variant="outlined"
                       size="large"
-                      onClick={handleClick}
+                      onClick={signinWithGoogle}
                     >
                       Connect with Google
                     </Button>
@@ -197,7 +199,6 @@ function SignUp() {
                     size="small"
                     variant="outlined"
                     color="success"
-                    onClick={handleClick}
                     style={{ marginLeft: 5 }}
                     component={Link}
                     to={"/login"}
@@ -210,12 +211,8 @@ function SignUp() {
           </Card>
         </Grid>
         <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            Account Created.
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            {error}
           </Alert>
         </Snackbar>
       </div>

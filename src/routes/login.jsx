@@ -38,6 +38,7 @@ function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login, currentUser } = useAuth();
+  const [open, setOpen] = useState(false);
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,6 +46,7 @@ function Login() {
 
   async function handleSumbit(e) {
     e.preventDefault();
+    setOpen(true);
 
     try {
       setError("");
@@ -56,12 +58,10 @@ function Login() {
     }
     setLoading(false);
   }
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
+  function signinWithGoogle() {
+    setError("Unable to sign in with google at this time.");
     setOpen(true);
-  };
+  }
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -111,7 +111,7 @@ function Login() {
                     <Button
                       variant="outlined"
                       size="large"
-                      onClick={handleClick}
+                      onClick={signinWithGoogle}
                     >
                       Connect with Google
                     </Button>
@@ -175,7 +175,6 @@ function Login() {
                     <Button
                       size="small"
                       variant="outlined"
-                      onClick={handleClick}
                       component={Link}
                       to={"/signup"}
                     >
@@ -201,7 +200,7 @@ function Login() {
         </Grid>
         <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-            An error occured.
+            {error}
           </Alert>
         </Snackbar>
       </div>

@@ -34,6 +34,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
 
+            <Route path="/pokedex" element={<PokeDex />} />
+
             <Route path="/profile" element={<PrivateRoute />}>
               <Route path="/profile" element={<Profile />} />
             </Route>
@@ -50,10 +52,17 @@ function App() {
               <Route path="/notifications" element={<Notifications />} />
             </Route>
 
-            <Route path="/open" element={<Open />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/pokedex" element={<PokeDex />} />
-            <Route path="/store" element={<Store />} />
+            <Route path="/open" element={<PrivateRoute />}>
+              <Route path="/open" element={<Open />} />
+            </Route>
+
+            <Route path="/explore" element={<PrivateRoute />}>
+              <Route path="/explore" element={<Explore />} />
+            </Route>
+
+            <Route path="/store" element={<PrivateRoute />}>
+              <Route path="/store" element={<Store />} />
+            </Route>
           </Routes>
         </Fragment>
       </AuthProvider>

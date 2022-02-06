@@ -1,9 +1,9 @@
 import react from "react";
 
-function Alerts() {
+function Alerts({ alertMessage }) {
   return (
     <div className="Alerts" style={{ margin: 25 }}>
-      <h1>SEND ALERT MESSAGE</h1>
+      <h1>{alertMessage}</h1>
     </div>
   );
 }

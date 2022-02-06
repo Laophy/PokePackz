@@ -16,9 +16,9 @@ import Tooltip from "@mui/material/Tooltip";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function PokeDex() {
-  //151 or 3rd gen 386
+  //151 or 3rd gen 386 4th gen 493
   const [pokemon, setPokemon] = useState([]);
-  const [pokeLimit, setPokeLimit] = useState(386);
+  const [pokeLimit, setPokeLimit] = useState(493);
   const [shiny, setShiny] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
@@ -75,13 +75,10 @@ function PokeDex() {
         alignItems="center"
       >
         <Item>
-          <Button variant="outlined">Sumbit</Button>
-        </Item>
-        <Item>
           <TextField
             id="standard-basic"
             label="# of Pokemon"
-            value="386"
+            value={pokeLimit}
             variant="standard"
             type="number"
             style={{ marginLeft: 10 }}
@@ -108,7 +105,7 @@ function PokeDex() {
         {pokemon.map((pokeClass, id) => {
           return (
             <>
-              <Tooltip title={pokeClass.name}>
+              <Tooltip title={pokeClass.name + " ID: " + (id + 1)}>
                 <Button
                   variant="outlined"
                   color="primary"
