@@ -1,4 +1,5 @@
 import react from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Zoom from "@mui/material/Zoom";
 import TextField from "@mui/material/TextField";
@@ -49,7 +50,13 @@ function Explore() {
               justifyContent="flex-start"
               alignItems="flex-end"
             >
-              <Button variant="outlined" color="primary" style={{ margin: 15 }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                style={{ margin: 15 }}
+                component={Link}
+                to={"/regions/kanto"}
+              >
                 Explore Kanto
               </Button>
             </Grid>
@@ -94,7 +101,13 @@ function Explore() {
               justifyContent="flex-start"
               alignItems="flex-end"
             >
-              <Button variant="outlined" color="primary" style={{ margin: 15 }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                style={{ margin: 15 }}
+                component={Link}
+                to={"/regions/johto"}
+              >
                 Explore Johto
               </Button>
             </Grid>
@@ -135,7 +148,13 @@ function Explore() {
               justifyContent="flex-start"
               alignItems="flex-end"
             >
-              <Button variant="outlined" color="primary" style={{ margin: 15 }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                style={{ margin: 15 }}
+                component={Link}
+                to={"/regions/hoenn"}
+              >
                 Explore Hoenn
               </Button>
             </Grid>
@@ -180,7 +199,13 @@ function Explore() {
               justifyContent="flex-start"
               alignItems="flex-end"
             >
-              <Button variant="outlined" color="primary" style={{ margin: 15 }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                style={{ margin: 15 }}
+                component={Link}
+                to={"/regions/sinnoh"}
+              >
                 Explore Sinnoh
               </Button>
             </Grid>

@@ -233,13 +233,13 @@ export default function Nav() {
                   Explore
                 </MenuItem>
               </Tooltip>
-              <Tooltip title="Open pokemon packs">
+              <Tooltip title="Buy pokemon packs">
                 <MenuItem
                   onClick={handleMenuClose}
                   component={Link}
-                  to={"/open"}
+                  to={"/store"}
                 >
-                  Open
+                  Store
                 </MenuItem>
               </Tooltip>
               <Tooltip title="View profile">

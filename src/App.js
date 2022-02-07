@@ -18,6 +18,12 @@ import Open from "./routes/open";
 import Explore from "./routes/explore";
 import PokeDex from "./routes/pokedex";
 import SignUp from "./routes/signup";
+
+import Kanto from "./routes/regions/kanto";
+import Johto from "./routes/regions/johto";
+import Hoenn from "./routes/regions/hoenn";
+import Sinnoh from "./routes/regions/sinnoh";
+
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -58,6 +64,19 @@ function App() {
 
             <Route path="/explore" element={<PrivateRoute />}>
               <Route path="/explore" element={<Explore />} />
+            </Route>
+
+            <Route path="/regions/kanto" element={<PrivateRoute />}>
+              <Route path="/regions/kanto" element={<Kanto />} />
+            </Route>
+            <Route path="/regions/johto" element={<PrivateRoute />}>
+              <Route path="/regions/johto" element={<Johto />} />
+            </Route>
+            <Route path="/regions/hoenn" element={<PrivateRoute />}>
+              <Route path="/regions/hoenn" element={<Hoenn />} />
+            </Route>
+            <Route path="/regions/sinnoh" element={<PrivateRoute />}>
+              <Route path="/regions/sinnoh" element={<Sinnoh />} />
             </Route>
 
             <Route path="/store" element={<PrivateRoute />}>
