@@ -25,10 +25,13 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export default function Kanto() {
   //151 or 3rd gen 386 4th gen 493
   const [pokemon, setPokemon] = useState([]);
-  const [basesetID, setbasesetID] = useState(1);
+  const [basesetID, setbasesetID] = useState(102);
+  const [baseSet, setBaseSet] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingIMG, setloadingIMG] = useState(false);
   const [error, setError] = useState();
+  const [searchBar, setSearchBar] = useState("flex-start");
+  const [searchZoom, setSearchZoom] = useState(true);
 
   const [open, setOpen] = useState(false);
   const [encounter, setEncounter] = useState(false);
@@ -49,6 +52,13 @@ export default function Kanto() {
           setPokemon(response.data.data);
           setloadingIMG(false);
         });
+      /*
+      await axios
+        .get("https://api.pokemontcg.io/v2/cards/?q=set.id:base1")
+        .then((res) => {
+          setBaseSet(res.data.data.data);
+        });
+        */
       setLoading(false);
     } catch {
       setError("Failed to fetch data");
@@ -62,6 +72,16 @@ export default function Kanto() {
 
   function handleSearch() {
     displayActions();
+    if (searchBar == "flex-start") {
+      setSearchZoom(false);
+      setSearchBar("flex-end");
+      setSearchZoom(true);
+    }
+    if (searchBar == "flex-end") {
+      setSearchZoom(false);
+      setSearchBar("flex-start");
+      setSearchZoom(true);
+    }
 
     if (encounter == true) {
       let randomCard = (Math.random(102) * 100).toFixed(0);
@@ -73,21 +93,29 @@ export default function Kanto() {
 
   function collect() {
     setColor("success");
-    setMessage("Collected Card!");
+    setMessage(
+      `Collected ${pokemon.name} ($${pokemon.cardmarket.prices.averageSellPrice})`
+    );
     setOpen(true);
+    setEncounter(false);
+    handleSearch();
   }
 
-  function run() {
-    setColor("error");
-    setMessage("Threw away the card!");
+  function sell() {
+    setColor("success");
+    setMessage(
+      `${pokemon.name} sold for: $${pokemon.cardmarket.prices.averageSellPrice}`
+    );
     setOpen(true);
+    setEncounter(false);
+    handleSearch();
   }
 
   function displayActions() {
-    let encounterRate = (Math.random(10) * 4).toFixed(0);
-    console.log(encounterRate);
-    console.log(encounter);
-    if (encounterRate <= 1) {
+    let encounterRate = (Math.random(10) * 1).toFixed(0);
+    //console.log(encounterRate);
+    //console.log(encounter);
+    if (encounterRate == 0) {
       setEncounter(true);
     } else {
       setEncounter(false);
@@ -137,22 +165,34 @@ export default function Kanto() {
               ) : (
                 <Typography variant="body2" color="error">
                   You found a <b>{pokemon.name}</b> card, do you wish to collect
-                  or run away?
+                  or sell (Ignoring this will discard the card)?
                 </Typography>
               )}
             </CardContent>
-            <Button
-              variant="outlined"
-              color="primary"
-              style={{ margin: 15 }}
-              onClick={handleSearch}
+
+            <Grid
+              container
+              direction="row"
+              justifyContent={searchBar}
+              alignItems="center"
             >
-              Search
-            </Button>
+              <Zoom in={searchZoom}>
+                <Tooltip title="Search Kanto">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ margin: 15 }}
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </Button>
+                </Tooltip>
+              </Zoom>
+            </Grid>
           </Card>
           {encounter ? (
             <Card>
-              <CardHeader title="Actions" />
+              <CardHeader title={`Wild ${pokemon.name}`} />
               <Zoom in={!loadingIMG}>
                 <CardMedia
                   component="img"
@@ -160,22 +200,40 @@ export default function Kanto() {
                   alt="Actions img"
                 />
               </Zoom>
-              <Button
-                variant="outlined"
-                color="primary"
-                style={{ margin: 15 }}
-                onClick={collect}
+              <CardContent>
+                <Typography variant="body2">
+                  <b>
+                    Sell price: ${pokemon.cardmarket.prices.averageSellPrice}
+                  </b>
+                </Typography>
+              </CardContent>
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="flex-end"
               >
-                Collect
-              </Button>
-              <Button
-                variant="outlined"
-                color="primary"
-                style={{ margin: 15 }}
-                onClick={run}
-              >
-                Run
-              </Button>
+                <Tooltip title="Collect card">
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ margin: 15 }}
+                    onClick={collect}
+                  >
+                    Collect
+                  </Button>
+                </Tooltip>
+                <Tooltip title="Sell card">
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    style={{ margin: 15 }}
+                    onClick={sell}
+                  >
+                    Sell
+                  </Button>
+                </Tooltip>
+              </Grid>
             </Card>
           ) : (
             ""

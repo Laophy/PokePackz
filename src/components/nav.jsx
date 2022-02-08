@@ -117,10 +117,16 @@ export default function Nav() {
       <MenuItem onClick={handleMenuClose} component={Link} to={"/store"}>
         Store
       </MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to={"/sets"}>
+        Pack Sets
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to={"/pokedex"}>
+        Dex
+      </MenuItem>
+      <Divider />
       <MenuItem onClick={handleMenuClose} component={Link} to={"/settings"}>
         Settings
       </MenuItem>
-      <Divider />
       {currentUser ? (
         <MenuItem onClick={logout} component={Link} to={"/login"}>
           Logout
@@ -180,7 +186,7 @@ export default function Nav() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>More</p>
       </MenuItem>
     </Menu>
   );
@@ -204,16 +210,6 @@ export default function Nav() {
               src={pokelogo}
             />
           </Typography>
-          <Tooltip title="View the pokedex">
-            <MenuItem
-              onClick={handleMenuClose}
-              component={Link}
-              to={"/pokedex"}
-              style={{ marginLeft: 5 }}
-            >
-              View PokeDex
-            </MenuItem>
-          </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
 
           <Tooltip title="Home menu">
