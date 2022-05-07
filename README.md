@@ -1,4 +1,4 @@
 # Poke Packz
 
-    Project created by Jordan Pessman
+    Project created by Laophy
     More updates coming soon.
